@@ -30,23 +30,23 @@ jobs:
         az account show
         az group list
 
-#    - name: Setup Terraform
-#      uses: hashicorp/setup-terraform@v3
-#      with:
-#        terraform_wrapper: false
-#
-#    - name: Terraform Init
-#      run: terraform init
-#      working-directory: ./terraform
-#
-#    - name: Terraform Plan
-#      id: tf-plan
-#      run: |
-#        terraform plan -no-color -out tfplan
-#      working-directory: ./terraform
-#      
-#    - name: Publish Terraform Plan
-#      uses: actions/upload-artifact@v4
-#      with:
-#        name: tfplan
-#        path: tfplan
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_wrapper: false
+
+    - name: Terraform Init
+      run: terraform init
+      working-directory: ./terraform
+
+    - name: Terraform Plan
+      id: tf-plan
+      run: |
+        terraform plan -no-color -out tfplan
+      working-directory: ./terraform
+      
+    - name: Publish Terraform Plan
+      uses: actions/upload-artifact@v4
+      with:
+        name: tfplan
+        path: tfplan
