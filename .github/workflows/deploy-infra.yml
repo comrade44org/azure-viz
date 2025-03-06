@@ -2,11 +2,11 @@ name: "Terraform Plan"
 on:
   workflow_dispatch:
 
-env:
-  ARM_CLIENT_ID: "${{ secrets.AZURE_CLIENT_ID }}"
-  ARM_SUBSCRIPTION_ID: "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
-  ARM_TENANT_ID: "${{ secrets.AZURE_TENANT_ID }}"
-  
+
+permissions:
+  id-token: write # This is required for requesting the JWT
+  contents: read  # This is required for actions/checkout
+
 jobs:
   terraform-plan:
     name: "TF Plan"
@@ -24,24 +24,29 @@ jobs:
         client-id: ${{ env.ARM_CLIENT_ID }}
         tenant-id: ${{ env.ARM_TENANT_ID }}
         subscription-id: ${{ env.ARM_SUBSCRIPTION_ID }}
-
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v3
-      with:
-        terraform_wrapper: false
-
-    - name: Terraform Init
-      run: terraform init
-      working-directory: ./terraform
-
-    - name: Terraform Plan
-      id: tf-plan
+    
+    - name: 'Run az commands'
       run: |
-        terraform plan -no-color -out tfplan
-      working-directory: ./terraform
-      
-    - name: Publish Terraform Plan
-      uses: actions/upload-artifact@v4
-      with:
-        name: tfplan
-        path: tfplan
+        az account show
+        az group list
+
+#    - name: Setup Terraform
+#      uses: hashicorp/setup-terraform@v3
+#      with:
+#        terraform_wrapper: false
+#
+#    - name: Terraform Init
+#      run: terraform init
+#      working-directory: ./terraform
+#
+#    - name: Terraform Plan
+#      id: tf-plan
+#      run: |
+#        terraform plan -no-color -out tfplan
+#      working-directory: ./terraform
+#      
+#    - name: Publish Terraform Plan
+#      uses: actions/upload-artifact@v4
+#      with:
+#        name: tfplan
+#        path: tfplan
