@@ -9,7 +9,7 @@ resource "random_integer" "randint" {
 }
 
 resource "azurerm_cosmosdb_account" "db" {
-  name = "cdb-uks-bookdb-${random_integer.randint}"
+  name = "cdb-uks-bookdb-${random_integer.randint.result}"
   location = azurerm_resource_group.rg-uks-csm-01.location
   resource_group_name = azurerm_resource_group.rg-uks-csm-01.name
   offer_type = "Standard"
