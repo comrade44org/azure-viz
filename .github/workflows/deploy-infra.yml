@@ -66,6 +66,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: tfplan
+          path: ./terraform
 
       - name: Terraform Init
         run: terraform init
@@ -74,3 +75,4 @@ jobs:
       - name: Terraform Apply
         run:
           terraform apply tfplan
+        working-directory: ./terraform
