@@ -84,5 +84,5 @@ jobs:
 
       - name: Terraform Apply
         run:
-          terraform apply tfplan
+          terraform apply ./tfplan
         working-directory: ./terraform
