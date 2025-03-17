@@ -2,9 +2,9 @@ name: "Terraform Plan"
 on:
   workflow_dispatch:
     inputs:
-      terraform-plan-only:
+      terraform-apply:
         type: boolean
-        description: "Run a Terraform plan only."
+        description: "Run a Terraform apply?"
 
 env:
   ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
@@ -56,7 +56,7 @@ jobs:
     name: "Terraform Apply"
     runs-on: ubuntu-latest
     needs: terraform-plan
-    if: ${{ github.event.inputs.terraform-plan-only == false }}
+    if: inputs.terraform-apply
     steps:
       - name: Checkout
         uses: actions/checkout@v4
