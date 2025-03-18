@@ -45,6 +45,7 @@ jobs:
         -backend-config=tenant_id=$ARM_TENANT_ID
         -backend-config=storage_account_name=$TFSTATE_STORAGE_ACCOUNT_NAME
         -backend-config=container_name=azure-viz
+        -backend-config=key=azure-viz.tfstate
       working-directory: ./terraform
 
     - name: Terraform Plan
