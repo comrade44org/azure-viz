@@ -8,6 +8,8 @@ on:
 
 env:
   ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+  TFSTATE_STORAGE_ACCOUNT_NAME: ${{ secrets.TFSTATE_STORAGE_ACCOUNT_NAME }}
 
 permissions:
   id-token: write # This is required for requesting the JWT
@@ -37,7 +39,12 @@ jobs:
         terraform_wrapper: false
 
     - name: Terraform Init
-      run: terraform init
+      run: |
+        terraform init -backend-config=use_azuread_auth=true 
+        -backend-config=use_cli=true
+        -backend-config=tenant_id=$ARM_TENANT_ID
+        -backend-config=storage_account_name=$TFSTATE_STORAGE_ACCOUNT_NAME
+        -backend-config=container_name=azure-viz
       working-directory: ./terraform
 
     - name: Terraform Plan
